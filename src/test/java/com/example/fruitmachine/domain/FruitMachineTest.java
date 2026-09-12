@@ -21,15 +21,25 @@ class FruitMachineTest {
     }
 
     @Test
-    @Disabled("TODO Part 1: spin fills every slot via the selector")
     void spin_uses_the_selector_to_fill_every_slot() {
-        // ...
+        SpinResult spinResult = machine(MachineConfig.classic(1,100), 0, 1, 2, 3).spin();
+
+        assertThat(spinResult.colours()).containsExactly(0,1,2,3);
+        assertThat(spinResult.slotCount()).isEqualTo(4);
     }
 
     @Test
-    @Disabled("TODO Part 1: all slots the same colour is a jackpot")
     void jackpot_when_all_slots_share_a_colour() {
-        // ...
+        PlayResult playResult = machine(MachineConfig.classic(1,100), 1, 1, 1, 1).play();
+
+        assertThat(playResult.prize()).isEqualTo(PrizeType.JACKPOT);
+    }
+
+    @Test
+    void no_jackpot_when_slots_differ() {
+        PlayResult playResult = machine(MachineConfig.classic(1,100), 1, 1, 1, 2).play();
+
+        assertThat(playResult.prize()).isEqualTo(PrizeType.NONE);
     }
 
     @Test

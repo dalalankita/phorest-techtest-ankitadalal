@@ -1,5 +1,8 @@
 package com.example.fruitmachine.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A single stateful machine: holds its configuration, current float, and free-play balance,
  * and knows how to play a round.
@@ -24,14 +27,21 @@ public class FruitMachine {
      * Randomly fill every slot.
      */
     public SpinResult spin() {
-        throw new UnsupportedOperationException("TODO Part 1: implement spin()");
+        int slotCount = config.slotCount();
+        List<Integer> coloursList = new ArrayList<>(slotCount);
+        for (int i=0; i<slotCount;i++) {
+            coloursList.add(colourSelector.nextColour(slotCount));
+        }
+        return new SpinResult(coloursList);
     }
 
     /**
      * Play one round: spin, evaluate, settle the money, and return the outcome.
      */
     public PlayResult play() {
-        throw new UnsupportedOperationException("TODO Part 2: implement play()");
+        SpinResult spinResult = spin();
+        PrizeType prize = prizeEvaluator.evaluate(spinResult, config.k());
+        return new PlayResult(spinResult, prize, 0, 0, currentFloat, freePlays);
     }
 
     public MachineConfig config() {

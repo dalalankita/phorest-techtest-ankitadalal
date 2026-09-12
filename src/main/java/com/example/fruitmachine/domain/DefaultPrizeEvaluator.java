@@ -1,5 +1,7 @@
 package com.example.fruitmachine.domain;
 
+import java.util.List;
+
 /**
  * Default rule set for the classic game
  */
@@ -7,13 +9,22 @@ public class DefaultPrizeEvaluator implements PrizeEvaluator {
 
     @Override
     public PrizeType evaluate(SpinResult spin, int k) {
-        // TODO: return the single best prize once the detectors below are implemented.
+        if (isJackpot(spin)) {
+            return PrizeType.JACKPOT;
+        }
         return PrizeType.NONE;
     }
 
     /** All slots the same colour. */
     private boolean isJackpot(SpinResult spin) {
-        throw new UnsupportedOperationException("TODO Part 1: implement jackpot detection");
+        List<Integer> coloursList = spin.colours();
+        int firstColour = coloursList.get(0);
+        for (int colour: coloursList) {
+            if (colour != firstColour) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /** Every slot a distinct colour. */
