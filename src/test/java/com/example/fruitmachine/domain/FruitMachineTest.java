@@ -1,5 +1,6 @@
 package com.example.fruitmachine.domain;
 
+import com.example.fruitmachine.domain.support.RecordingSelector;
 import com.example.fruitmachine.domain.support.ScriptedColourSelector;
 import org.junit.jupiter.api.Test;
 
@@ -92,19 +93,6 @@ class FruitMachineTest {
     }
 
     @Test
-    void spin_asks_colour_picker_for_colour_within_range() {
-        int[] capture = new int[1];
-        ColourSelector selector = colourCount -> {
-            capture[0] = colourCount;
-            return 0;
-        };
-        new FruitMachine(new MachineConfig(3,7,2,1,100), selector, new DefaultPrizeEvaluator())
-                .spin();
-
-        assertThat(capture[0]).isEqualTo(7);
-    }
-
-    @Test
     void full_house_with_odd_float() {
         PlayResult playResult = machine(new MachineConfig(4,4,2,2,101),0, 1, 2, 3)
                 .play();
@@ -116,7 +104,7 @@ class FruitMachineTest {
 
     @Test
     void config_rejects_k_greater_than_slot_count() {
-        assertThrows(InvalidMachineConfigException.class, () -> new MachineConfig(2,4,3,1,100));
+        assertThrows(InvalidMachineConfigException.class, () -> new MachineConfig(3,4,4,1,100));
     }
 
     @Test
@@ -128,5 +116,23 @@ class FruitMachineTest {
 
         PrizeType prize2 = machine(k,0,0,1,1,0).play().prize();
         assertThat(prize2).isEqualTo(PrizeType.NONE);
+    }
+
+    @Test
+    void spin_ask_selector_for_colour_within_request() {
+        RecordingSelector selector = new RecordingSelector();
+        new FruitMachine(new MachineConfig(3,7,2,1,100), selector, new DefaultPrizeEvaluator())
+                .spin();
+
+        assertThat(selector.lastColourCount).isEqualTo(7);
+        assertThat(selector.calls).isEqualTo(3);
+    }
+
+    @Test
+    void jackpot_never_credits_free_plays_even_when_float_is_small() {
+        PlayResult result = machine(new MachineConfig(4, 4, 2, 5, 3), 7, 7, 7, 7).play();
+        assertThat(result.prize()).isEqualTo(PrizeType.JACKPOT);
+        assertThat(result.payout()).isEqualTo(3);
+        assertThat(result.freePlaysCredited()).isZero();
     }
 }
