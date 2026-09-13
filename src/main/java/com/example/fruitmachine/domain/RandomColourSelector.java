@@ -7,7 +7,7 @@ public class RandomColourSelector implements ColourSelector {
     private final RandomGenerator random;
 
     public RandomColourSelector() {
-        this(RandomGenerator.getDefault());
+        this(new java.util.Random());
     }
 
     public RandomColourSelector(RandomGenerator random) {
