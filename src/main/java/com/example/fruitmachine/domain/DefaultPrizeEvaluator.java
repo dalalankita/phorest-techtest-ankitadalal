@@ -54,11 +54,7 @@ public class DefaultPrizeEvaluator implements PrizeEvaluator {
         List<Integer> colourList = spin.colours();
         int currRunLength = 1;
         for (int i=1;i<colourList.size();i++) {
-            if (colourList.get(i).equals(colourList.get(i-1))) {
-                currRunLength++;
-            } else {
-                currRunLength = 1;
-            }
+            currRunLength = colourList.get(i).equals(colourList.get(i-1)) ? currRunLength + 1 : 1;
             if (currRunLength >= k) {
                 return true;
             }
