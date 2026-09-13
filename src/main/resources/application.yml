@@ -1,6 +1,9 @@
 spring:
   application:
     name: fruit-machine
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
 
 server:
   port: 8080

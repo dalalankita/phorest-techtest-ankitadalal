@@ -38,7 +38,7 @@ public class FruitMachineService {
 
     private FruitMachine requireMachine() {
         if (machine == null) {
-            throw  new MachineNotConfiguredException();
+            throw new MachineNotConfiguredException();
         }
         return machine;
     }

@@ -11,14 +11,14 @@ public record MachineConfig(
         long startingFloat
 ) {
     public MachineConfig {
-        if (slotCount < 1) {
-            throw new InvalidMachineConfigException("slotCount must be >= 1");
+        if (slotCount < 3) {
+            throw new InvalidMachineConfigException("slotCount must be >= 3");
         }
         if (colourCount < 1) {
             throw new InvalidMachineConfigException("colourCount must be >= 1");
         }
-        if (k < 1) {
-            throw new InvalidMachineConfigException("k must be >= 1");
+        if (k < 2) {
+            throw new InvalidMachineConfigException("k must be >= 2");
         }
         if (k > slotCount) {
             throw new InvalidMachineConfigException("k cannot exceed slotCount");
