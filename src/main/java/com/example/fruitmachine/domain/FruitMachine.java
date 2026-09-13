@@ -45,11 +45,16 @@ public class FruitMachine {
         long payout = 0;
         long freePlayCredit = 0;
 
-        if (prize == PrizeType.JACKPOT) {
-            payout = currentFloat;
-            currentFloat = 0;
+        switch (prize) {
+            case JACKPOT -> {
+                payout = currentFloat;
+                currentFloat = 0;
+            }
+            case FULL_HOUSE -> {
+                payout = currentFloat/2;
+                currentFloat -= payout;
+            }
         }
-
         return new PlayResult(spinResult, prize, payout, freePlayCredit, currentFloat, freePlays);
     }
 

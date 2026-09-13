@@ -49,6 +49,16 @@ class FruitMachineTest {
     }
 
     @Test
+    void full_house_when_all_slot_are_different() {
+        PlayResult playResult = machine(new MachineConfig(4,4,2,2,100),0, 1, 2, 3)
+                .play();
+
+        assertThat(playResult.prize()).isEqualTo(PrizeType.FULL_HOUSE);
+        assertThat(playResult.payout()).isEqualTo(50);
+        assertThat(playResult.resultingFloat()).isEqualTo(50);
+    }
+
+    @Test
     @Disabled("TODO Part 2: full house pays half the float; small prize pays 5 x cost")
     void payouts_per_prize_type() {
         // ...

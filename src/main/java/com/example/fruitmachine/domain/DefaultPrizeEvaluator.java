@@ -1,6 +1,8 @@
 package com.example.fruitmachine.domain;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Default rule set for the classic game
@@ -11,6 +13,9 @@ public class DefaultPrizeEvaluator implements PrizeEvaluator {
     public PrizeType evaluate(SpinResult spin, int k) {
         if (isJackpot(spin)) {
             return PrizeType.JACKPOT;
+        }
+        if (isFullHouse(spin)) {
+            return PrizeType.FULL_HOUSE;
         }
         return PrizeType.NONE;
     }
@@ -29,7 +34,13 @@ public class DefaultPrizeEvaluator implements PrizeEvaluator {
 
     /** Every slot a distinct colour. */
     private boolean isFullHouse(SpinResult spin) {
-        throw new UnsupportedOperationException("TODO Part 2: implement full-house detection");
+        Set<Integer> colourSet = new HashSet<>();
+        for (int colour: spin.colours()) {
+            if (!colourSet.add(colour)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /** A run of at least {@code k} adjacent slots sharing a colour */
