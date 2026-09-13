@@ -103,11 +103,6 @@ class FruitMachineTest {
     }
 
     @Test
-    void config_rejects_k_greater_than_slot_count() {
-        assertThrows(InvalidMachineConfigException.class, () -> new MachineConfig(3,4,4,1,100));
-    }
-
-    @Test
     void small_prize_k_least_run(){
         MachineConfig k = new MachineConfig(5,9,3,2,100);
 

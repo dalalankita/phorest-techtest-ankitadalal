@@ -1,7 +1,5 @@
-package com.example.fruitmachine.domain.support;
+package com.example.fruitmachine.domain;
 
-import com.example.fruitmachine.domain.InvalidMachineConfigException;
-import com.example.fruitmachine.domain.MachineConfig;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
@@ -27,7 +25,7 @@ class MachineConfigTest {
     }
 
     @Test
-    void rejects_k_not_less_than_slot_count() {
+    void rejects_k_greater_than_slot_count() {
         assertThatThrownBy(() -> new MachineConfig(4, 4, 5, 1, 100))   // k == slotCount, invalid under your rule
                 .isInstanceOf(InvalidMachineConfigException.class);
     }
