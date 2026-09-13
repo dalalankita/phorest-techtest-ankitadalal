@@ -1,7 +1,6 @@
 package com.example.fruitmachine.domain;
 
 import com.example.fruitmachine.domain.support.ScriptedColourSelector;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -121,8 +120,13 @@ class FruitMachineTest {
     }
 
     @Test
-    @Disabled("TODO Part 3: k adjacent, many colours, large slot counts")
-    void generalises_to_arbitrary_k_and_colours() {
-        // ...
+    void small_prize_k_least_run(){
+        MachineConfig k = new MachineConfig(5,9,3,2,100);
+
+        PrizeType prize1 = machine(k,0,0,1,1,1).play().prize();
+        assertThat(prize1).isEqualTo(PrizeType.SMALL_PRIZE);
+
+        PrizeType prize2 = machine(k,0,0,1,1,0).play().prize();
+        assertThat(prize2).isEqualTo(PrizeType.NONE);
     }
 }
