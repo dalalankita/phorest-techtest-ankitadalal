@@ -30,7 +30,7 @@ public class FruitMachine {
         int slotCount = config.slotCount();
         List<Integer> coloursList = new ArrayList<>(slotCount);
         for (int i=0; i<slotCount;i++) {
-            coloursList.add(colourSelector.nextColour(slotCount));
+            coloursList.add(colourSelector.nextColour(config().colourCount()));
         }
         return new SpinResult(coloursList);
     }
@@ -53,6 +53,14 @@ public class FruitMachine {
             case FULL_HOUSE -> {
                 payout = currentFloat/2;
                 currentFloat -= payout;
+            }
+            case SMALL_PRIZE -> {
+                long amount = 5 * config.playCost();
+                payout = Math.min(amount, currentFloat);
+                freePlayCredit = amount - payout;
+
+                currentFloat -= payout;
+                freePlays += freePlayCredit;
             }
         }
         return new PlayResult(spinResult, prize, payout, freePlayCredit, currentFloat, freePlays);

@@ -17,6 +17,10 @@ public class DefaultPrizeEvaluator implements PrizeEvaluator {
         if (isFullHouse(spin)) {
             return PrizeType.FULL_HOUSE;
         }
+        //Part 2 is the classic k = 2 game. Part 3 will use k for a run of k
+        if (hasAdjacentPair(spin)) {
+            return PrizeType.SMALL_PRIZE;
+        }
         return PrizeType.NONE;
     }
 
@@ -43,8 +47,14 @@ public class DefaultPrizeEvaluator implements PrizeEvaluator {
         return true;
     }
 
-    /** A run of at least {@code k} adjacent slots sharing a colour */
-    private boolean hasRunOfAtLeast(SpinResult spin, int k) {
-        throw new UnsupportedOperationException("TODO Part 3: implement adjacent-run detection");
+    /** Two or more adjacent slots the same colour. Part 3 generalizes this to a run of k. */
+    private boolean hasAdjacentPair(SpinResult spin) {
+        List<Integer> colourList = spin.colours();
+        for (int i=1;i<colourList.size();i++) {
+            if (colourList.get(i).equals(colourList.get(i-1))) {
+                return true;
+            }
+        }
+        return false;
     }
 }

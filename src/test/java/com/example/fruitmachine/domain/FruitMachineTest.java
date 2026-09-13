@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class FruitMachineTest {
 
@@ -40,7 +41,7 @@ class FruitMachineTest {
 
     @Test
     void no_jackpot_when_slots_differ() {
-        PlayResult playResult = machine(MachineConfig.classic(1,100), 1, 1, 1, 2).play();
+        PlayResult playResult = machine(MachineConfig.classic(1,100), 1, 2, 1, 2).play();
 
         assertThat(playResult.prize()).isEqualTo(PrizeType.NONE);
         assertThat(playResult.payout()).isZero();
@@ -59,15 +60,64 @@ class FruitMachineTest {
     }
 
     @Test
-    @Disabled("TODO Part 2: full house pays half the float; small prize pays 5 x cost")
-    void payouts_per_prize_type() {
-        // ...
+    void small_prize_when_adjacent_slots_match() {
+        PlayResult playResult = machine(MachineConfig.classic(2, 100),0,0,1,2)
+                .play();
+
+        assertThat(playResult.prize()).isEqualTo(PrizeType.SMALL_PRIZE);
+        assertThat(playResult.payout()).isEqualTo(10);
+        assertThat(playResult.resultingFloat()).isEqualTo(90);
+        assertThat(playResult.freePlaysCredited()).isZero();
     }
 
     @Test
-    @Disabled("TODO Part 2: shortfall credits free plays, but NOT for a jackpot")
     void prize_larger_than_float_credits_free_plays() {
-        // ...
+        PlayResult playResult = machine(new MachineConfig(4,4,2,5,10),0,0,1,2)
+                .play();
+
+        assertThat(playResult.prize()).isEqualTo(PrizeType.SMALL_PRIZE);
+        assertThat(playResult.payout()).isEqualTo(10);
+        assertThat(playResult.resultingFloat()).isZero();
+        assertThat(playResult.freePlaysCredited()).isEqualTo(15);
+        assertThat(playResult.freePlaysBalance()).isEqualTo(15);
+    }
+
+    @Test
+    void free_plays_accumulate_across_plays() {
+        FruitMachine machine = machine(new MachineConfig(4, 4, 2, 5, 10),
+                0, 0, 1, 2,
+                0, 0, 1, 2);
+
+        assertThat(machine.play().freePlaysBalance()).isEqualTo(15);
+        assertThat(machine.play().freePlaysBalance()).isEqualTo(40);
+    }
+
+    @Test
+    void spin_asks_colour_picker_for_colour_within_range() {
+        int[] capture = new int[1];
+        ColourSelector selector = colourCount -> {
+            capture[0] = colourCount;
+            return 0;
+        };
+        new FruitMachine(new MachineConfig(3,7,2,1,100), selector, new DefaultPrizeEvaluator())
+                .spin();
+
+        assertThat(capture[0]).isEqualTo(7);
+    }
+
+    @Test
+    void full_house_with_odd_float() {
+        PlayResult playResult = machine(new MachineConfig(4,4,2,2,101),0, 1, 2, 3)
+                .play();
+
+        assertThat(playResult.prize()).isEqualTo(PrizeType.FULL_HOUSE);
+        assertThat(playResult.payout()).isEqualTo(50);
+        assertThat(playResult.resultingFloat()).isEqualTo(51);
+    }
+
+    @Test
+    void config_rejects_k_greater_than_slot_count() {
+        assertThrows(InvalidMachineConfigException.class, () -> new MachineConfig(2,4,3,1,100));
     }
 
     @Test
