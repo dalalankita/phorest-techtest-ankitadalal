@@ -18,7 +18,7 @@ public class DefaultPrizeEvaluator implements PrizeEvaluator {
     /** All slots the same colour. */
     private boolean isJackpot(SpinResult spin) {
         List<Integer> coloursList = spin.colours();
-        int firstColour = coloursList.get(0);
+        int firstColour = coloursList.getFirst();
         for (int colour: coloursList) {
             if (colour != firstColour) {
                 return false;

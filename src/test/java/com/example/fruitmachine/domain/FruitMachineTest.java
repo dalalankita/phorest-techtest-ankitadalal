@@ -33,6 +33,9 @@ class FruitMachineTest {
         PlayResult playResult = machine(MachineConfig.classic(1,100), 1, 1, 1, 1).play();
 
         assertThat(playResult.prize()).isEqualTo(PrizeType.JACKPOT);
+        assertThat(playResult.payout()).isEqualTo(100);
+        assertThat(playResult.resultingFloat()).isZero();
+        assertThat(playResult.freePlaysCredited()).isZero();
     }
 
     @Test
@@ -40,6 +43,9 @@ class FruitMachineTest {
         PlayResult playResult = machine(MachineConfig.classic(1,100), 1, 1, 1, 2).play();
 
         assertThat(playResult.prize()).isEqualTo(PrizeType.NONE);
+        assertThat(playResult.payout()).isZero();
+        assertThat(playResult.resultingFloat()).isEqualTo(100);
+
     }
 
     @Test

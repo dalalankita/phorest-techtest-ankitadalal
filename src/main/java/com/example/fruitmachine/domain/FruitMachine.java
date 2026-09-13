@@ -41,7 +41,16 @@ public class FruitMachine {
     public PlayResult play() {
         SpinResult spinResult = spin();
         PrizeType prize = prizeEvaluator.evaluate(spinResult, config.k());
-        return new PlayResult(spinResult, prize, 0, 0, currentFloat, freePlays);
+
+        long payout = 0;
+        long freePlayCredit = 0;
+
+        if (prize == PrizeType.JACKPOT) {
+            payout = currentFloat;
+            currentFloat = 0;
+        }
+
+        return new PlayResult(spinResult, prize, payout, freePlayCredit, currentFloat, freePlays);
     }
 
     public MachineConfig config() {
