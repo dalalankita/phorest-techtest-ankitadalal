@@ -98,7 +98,7 @@ evaluated to a single prize, and the machine's **float** (its pot of money) is s
 - **No win** — none of the above — pays nothing.
 
 If a (non-jackpot) prize is larger than the float can cover, the machine pays what it has and
-credits the player with **free plays** equal to the shortfall.
+credits the player with free plays equal to the shortfall divided by the play cost (rounded down).
 
 ## Architecture
 
@@ -163,7 +163,8 @@ Where the brief was deliberately open, these are the calls I made.
   payouts. This is what gives the "float too small" rule meaning - otherwise the pot would rarely
   run low and free plays would almost never be credited. (The alternative - feeding stakes into the
   pot like a real machine - I chose not to take for this assignment.)
-- **Free plays credited = the shortfall.** When a prize can't be fully paid, the unpaid amount is
+- **Free plays credited = the shortfall/playCost.** When a prize can't be fully paid, the unpaid amount is converted into whole free plays by dividing by the play cost. 
+  Free plays are tracked, redeeming them (playing without paying) is out of scope.
   credited as free plays. Free plays are tracked; redeeming them (playing without paying) is out of
   scope.
 - **Config limits — a machine that can't produce a real game is rejected:**

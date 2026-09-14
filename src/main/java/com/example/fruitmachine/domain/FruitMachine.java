@@ -57,7 +57,9 @@ public class FruitMachine {
             case SMALL_PRIZE -> {
                 long amount = 5 * config.playCost();
                 payout = Math.min(amount, currentFloat);
-                freePlayCredit = amount - payout;
+
+                long shortFall = amount - payout;
+                freePlayCredit = shortFall/config.playCost();
 
                 currentFloat -= payout;
                 freePlays += freePlayCredit;

@@ -46,7 +46,6 @@ public class GlobalExceptionHandler {
         log.error("Unhandled exception", ex);
         return status(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected error");
     }
-    
     private ResponseEntity<ApiError> status(HttpStatus status, String message) {
         return ResponseEntity.status(status).body(ApiError.of(status.value(), message));
     }

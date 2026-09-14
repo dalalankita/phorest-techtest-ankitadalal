@@ -2,16 +2,9 @@ package com.example.fruitmachine.domain;
 
 import com.example.fruitmachine.domain.support.RecordingSelector;
 import com.example.fruitmachine.domain.support.ScriptedColourSelector;
-import com.example.fruitmachine.service.FruitMachineService;
 import org.junit.jupiter.api.Test;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class FruitMachineTest {
 
@@ -84,8 +77,8 @@ class FruitMachineTest {
         assertThat(playResult.prize()).isEqualTo(PrizeType.SMALL_PRIZE);
         assertThat(playResult.payout()).isEqualTo(10);
         assertThat(playResult.resultingFloat()).isZero();
-        assertThat(playResult.freePlaysCredited()).isEqualTo(15);
-        assertThat(playResult.freePlaysBalance()).isEqualTo(15);
+        assertThat(playResult.freePlaysCredited()).isEqualTo(3);
+        assertThat(playResult.freePlaysBalance()).isEqualTo(3);
     }
 
     @Test
@@ -94,8 +87,8 @@ class FruitMachineTest {
                 0, 0, 1, 2,
                 0, 0, 1, 2);
 
-        assertThat(machine.play().freePlaysBalance()).isEqualTo(15);
-        assertThat(machine.play().freePlaysBalance()).isEqualTo(40);
+        assertThat(machine.play().freePlaysBalance()).isEqualTo(3);
+        assertThat(machine.play().freePlaysBalance()).isEqualTo(8);
     }
 
     @Test
