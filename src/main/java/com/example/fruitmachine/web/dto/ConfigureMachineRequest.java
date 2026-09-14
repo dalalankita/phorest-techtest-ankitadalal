@@ -9,7 +9,7 @@ public record ConfigureMachineRequest(
         @NotNull @Min(3) Integer slotCount,
         @NotNull @Min(1) Integer colourCount,
         @NotNull @Min(2) Integer k,
-        @NotNull @Min(0) Long playCost,
+        @NotNull @Min(1) Long playCost,
         @NotNull @Min(0) Long startingFloat
 ) {
     public MachineConfig toDomain() {

@@ -24,7 +24,7 @@ public record MachineConfig(
             throw new InvalidMachineConfigException("k cannot exceed slotCount");
         }
         if (playCost < 1) {
-            throw new InvalidMachineConfigException("playCost must be >= 0");
+            throw new InvalidMachineConfigException("playCost must be >= 1");
         }
         if (startingFloat < 0) {
             throw new InvalidMachineConfigException("startingFloat must be >= 0");
