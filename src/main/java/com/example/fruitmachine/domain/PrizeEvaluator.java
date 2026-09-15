@@ -8,7 +8,7 @@ public interface PrizeEvaluator {
     /**
      * @param spin the spin to evaluate
      * @param k    minimum run length for a small prize (2 in the classic game)
-     * @return the single best prize for this spin, honouring precedence
+     * @return the single best prize for this spin, honoring precedence
      */
     PrizeType evaluate(SpinResult spin, int k);
 }
