@@ -15,10 +15,10 @@ kept as a plain-Java core that has no knowledge of the web.
 ```bash
 # run locally (starts on http://localhost:8080)
 mvn spring-boot:run
-
-# run the tests
+--------------------------------------------------
+# run the tests|
 mvn test
-
+--------------------------------------------------
 # run in Docker
 docker compose up --build
 # or:
@@ -89,7 +89,7 @@ Failures return a consistent body:
 
 ## How to play (the rules)
 
-The machine has a number of slots; each spin shows a random colour in every slot. A spin is
+The machine has a number of slots. Each spin shows a random colour in every slot. A spin is
 evaluated to a single prize, and the machine's **float** (its pot of money) is settled:
 
 - **Jackpot** — all slots the same colour — pays out the entire float.
